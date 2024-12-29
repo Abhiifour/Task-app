@@ -1,6 +1,6 @@
-import { useDispatch } from 'react-redux';
+
 import open from '../assets/open.png'
-import { addId } from '../features/applicationSlice';
+
 import { useNavigate } from 'react-router-dom';
 
 type applications = {
@@ -14,10 +14,10 @@ type applications = {
 
 export default function Application(props : applications){
     const navigate = useNavigate()
-    const dispatch = useDispatch()
+    
     //const Id = useSelector((state: any) => state.application)
     function handleChange (){
-        dispatch(addId({id : props.id}))
+       
         setTimeout(()=>{
             navigate("/application")
         },400)

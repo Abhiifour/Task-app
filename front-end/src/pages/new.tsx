@@ -3,99 +3,90 @@ import back from '../assets/back.png'
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
 
 import Loading from "../components/Loading";
 import toast from "react-hot-toast";
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { useRecoilValue } from "recoil";
+import { taskState } from "@/features/taskAtom";
+import { userState } from "@/features/userAtom";
+
 
 export default function New(){
+    const user = useRecoilValue(userState)
 
-    const editId = useSelector((state : any) => state.application)
+    const task = useRecoilValue(taskState)
+    const [loading,setLoading] = useState(false)
+    const[title ,setTitle] = useState(task.title ? task.title : "")
+    const [priority , setPriority] = useState(task.priority ? task.priority : "");
+    const [status , setStatus] = useState(task.status ? task.status : "pending");
+    const [startTime, setStartTime] = useState<Date | null>(task.startTime ? new Date(task.startTime) : null);
+    const [endTime, setEndTime] = useState<Date | null>(task.endTime ? new Date(task.endTime) : null);
+    
 
-    const[loading ,setLoading] = useState(true)
-    const [position , setPosition] = useState( "");
-    const [company , setCompany] = useState("");
-    const [compensation , setCompensation] = useState<number>();
-    const [location , setLocation] = useState("");
-    const [status , setStatus] = useState("");
     const navigate = useNavigate()
     
 
     useEffect( ()=>{
-        setTimeout(()=>{
-            setLoading(false)
-        },500)
-      try {
-        if(editId.id !== 0){
-            
-           
+        
 
-            async function getData(){
-                const response = await axios.post('https://job-application-tracker-4yti.onrender.com/find',{id :editId.id})
-                setPosition(response.data.position)
-                setCompany(response.data.company)
-                setCompensation(response.data.compensation)
-                setLocation(response.data.location)
-                setStatus(response.data.status)
-            }
-            getData()
-           
-           }
-      } catch (error) {
-        console.log(error)
-      }
-    },[editId])
+        
+     
+    },[startTime])
 
 
-    async function handleDelete(){
-        try {
+    // async function handleDelete(){
+    //     try {
 
-            async function deleteData(){
-                await axios.post('https://job-application-tracker-4yti.onrender.com/delete',{id :editId.id})
+    //         async function deleteData(){
+    //             await axios.post('https://job-application-tracker-4yti.onrender.com/delete',{id :editId.id})
               
-            }
+    //         }
 
-            deleteData()
+    //         deleteData()
            
 
-        } catch (error) {
-            console.log(error)
-        }
-        toast('Application Deleted !', {
-            icon: '👋🏼',
-        });
-    }
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+       
+    // }
     
 
     async function handleSubmit (e : React.FormEvent){
         e.preventDefault()
         try {
-            if(editId.id === 0){
-                await axios.post('https://job-application-tracker-4yti.onrender.com/create',{
-                    position,
-                    company,
-                    compensation,
-                    location,
-                    status
+            if(!task.id ){
+
+                await axios.post(`http://localhost:3000/create`,{
+                    headers: { Authorization: `Bearer ${user.token}` },
+                    title,
+                    status,
+                    priority,
+                    startTime: startTime ? startTime.toISOString() : null,
+                    endTime: endTime ? endTime.toISOString() : null
                     
                 })
-                toast('Application Added!', {
+                toast('Task Added!', {
                     icon: '👏',
                 });
+                
             }
            
             else{
-                await axios.put('https://job-application-tracker-4yti.onrender.com/update',{
-                    id: editId.id,
-                    position,
-                    company,
-                    compensation,
-                    location,
-                    status
+                await axios.put(`http://localhost:3000/update`,{
+                    headers: { Authorization: `Bearer ${user.token}` },
+                    id:task.id,
+                    title,
+                    status,
+                    priority,
+                    startTime: startTime ? startTime.toISOString() : null,
+                    endTime: endTime ? endTime.toISOString() : null
                 })
                 
             }
-            navigate("/dashboard")
+            navigate("/tasklist")
            
         } catch (error) {
             console.log(error)
@@ -110,10 +101,10 @@ export default function New(){
             <Nav/>
             
             <div className="text-primary font-medium text-[26px] w-[700px] m-auto p-4 font-poppins" >
-            {editId.id !== 0 ?"UPDATE APPLICATION":"ADD APPLICATION"}
+            {task.id ?"UPDATE TASK":"ADD TASK"}
             </div>
-            <div className="w-[700px] p-4 m-auto">
-            <div className="rounded-lg hover:bg-nav w-[100px] text-[18px] p-2 text-center mb-4 cursor-pointer flex items-center justify-center" onClick={() => navigate('/dashboard')}>
+            <div className="w-[700px] p-2 m-auto px-8">
+            <div className="rounded-lg hover:bg-nav w-[100px] text-[18px] p-2 text-center mb-4 cursor-pointer flex items-center justify-center" onClick={() => navigate('/tasklist')}>
             <div className='w-[15px] h-[15px]  cursor-pointer'>
                 <img src={back} alt="full-screen" className='w-[15px] h-[15px]' />
             </div>
@@ -122,37 +113,75 @@ export default function New(){
             {
                 loading ? <Loading/> : <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                 <div className="flex flex-col gap-3">
-                    <label htmlFor="postion" className="text-[16px]">Job Postion</label>
-                    <input type="text" id="position" placeholder="eg. SDE" className="p-3 text-[16px] rounded-lg bg-white border"value={position} onChange={(e)=>setPosition(e.target.value)} />
+
+                    <label htmlFor="title" className="text-[16px]">Title</label>
+                    <input type="text" id="title" placeholder="eg. Apply for a job" className="p-3 text-[16px] rounded-lg bg-white border" value={title} onChange={(e)=>setTitle(e.target.value)} />
+                
+                </div>
+                <div className="flex flex-col gap-3 w-[200px]">
+                    <label htmlFor="priority" className="text-[16px]">Priority</label>
+                    <select name="priority" id="priority" className="p-3 text-[16px] rounded-lg bg-white border" value={priority} onChange={(e) => setPriority(e.target.value)}>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    </select>    
+                    
                 </div>
                 <div className="flex flex-col gap-3">
-                    <label htmlFor="company" className="text-[16px]">Company</label>
-                    <input type="text" id="company" placeholder="eg. Microsoft" className="p-3 text-[16px] rounded-lg bg-white border"value={company} onChange={(e)=>setCompany(e.target.value)}  />
-                </div>
-                <div className="flex flex-col gap-3">
-                    <label htmlFor="salary" className="text-[16px]">Salary</label>
-                    <input type="text" id="salary" placeholder="$20000" className="p-3 text-[16px] rounded-lg bg-white border"value={compensation} onChange={(e)=>setCompensation(parseInt(e.target.value))} />
-                </div>
-                <div className="flex flex-col gap-3">
-                    <label htmlFor="location" className="text-[16px]">Location</label>
-                    <input type="text" id="location" placeholder="eg. Delhi" className="p-3 text-[16px] rounded-lg bg-white border" value={location} onChange={(e)=>setLocation(e.target.value)}/>
-                </div>
-                <div className="flex  gap-4 items-center">
+
                     <label htmlFor="status" className="text-[16px]">Status</label>
-                    <select name="status" id="status" className="p-2 text-[14px]" onChange={(e)=>setStatus(e.target.value)} value={status}>
-                    <option value="Applied">Applied</option>
-                    <option value="Offered">Offered</option>
-                    <option value="Interviewing">Interviewing</option>
-                    <option value="Rejected">Rejected</option>
-                    </select>
+                    <RadioGroup value={status} onValueChange={(value) => setStatus(value)}>
+                    <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="pending" id="option-one" />
+                        <Label htmlFor="option-one">Pending</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="finished" id="option-two" />
+                        <Label htmlFor="option-two">Finished</Label>
+                    </div>
+                    </RadioGroup>
+
                 </div>
-                <div className="flex gap-6">
-                <button className="p-2 w-[120px] text-[16px] border rounded-lg bg-primary text-white cursor-pointer" onClick={handleSubmit}>{editId.id !== 0 ?"UPDATE":"SAVE"}</button>
-                 {
-                    editId.id !== 0 ?
-                    <button className="p-2 w-[120px] text-[16px] border rounded-lg bg-primary text-white cursor-pointer" onClick={handleDelete}>DELETE</button> : <div></div>
-                }
-                </div>
+
+                <div className="flex justify-between">
+                <div className="flex flex-col gap-3">
+                <label htmlFor="start-time">Start time:</label>
+
+                <input
+                type="datetime-local"
+                id="start-time"
+                name="start-time"
+                value={startTime ? startTime.toISOString().slice(0, 16) : ''}
+                className="border p-2 cursor-pointer"
+                onChange={(e) => setStartTime(new Date(e.target.value))}
+                />
+                
+                  
+                </div>   
+
+
+                <div className="flex flex-col gap-3">
+                <label htmlFor="end-time">End time:</label>
+
+                <input
+                type="datetime-local"
+                id="end-time"
+                name="end-time"
+                value={endTime ? endTime.toISOString().slice(0, 16) : ''}
+                className="border p-2 cursor-pointer"
+                onChange={(e) => setEndTime(new Date(e.target.value))}
+                />
+                
+                  
+                </div>       
+                    
+                </div>             
+              
+                 
+                <button className="p-2 w-[120px] text-[16px] border rounded-lg bg-primary-text text-white cursor-pointer" onClick={handleSubmit}>{task.id  ?"UPDATE":"SAVE"}</button>
+                
             </form>
             }
            
