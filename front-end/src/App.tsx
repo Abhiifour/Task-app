@@ -7,7 +7,7 @@ import AnalysisPage from "./pages/Analysis"
 import { User } from "./pages/User"
 import { useRecoilValue } from "recoil"
 import { userState } from "./features/userAtom"
-import Nav from "./components/Nav"
+
 
 function App() {
   
@@ -15,13 +15,13 @@ function App() {
   return (
    <div className="">
     <Toaster/>
-    <Nav/>
+    
     <Routes>
     <Route path="/" element={<Home />} />
     <Route path="/user" element={<User />} />
       {user.token ? (
          <>
-          
+       
          <Route path="/tasklist" element={<Dashboard />} />
          <Route path="/analysis" element={<AnalysisPage />} />
          <Route path="/task" element={<New />} />

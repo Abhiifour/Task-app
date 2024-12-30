@@ -13,6 +13,7 @@ import {
 import { task } from "@/features/taskAtom";
 import { useRecoilValue } from "recoil";
 import { userState } from "@/features/userAtom";
+import Nav from "@/components/Nav";
 
 export default function Dashboard() {
     const [loading, setLoading] = useState(true);
@@ -80,7 +81,7 @@ export default function Dashboard() {
 
     return (
         <div className="w-full min-h-screen p-4 font-poppins">
-          
+            <Nav/>
             {loading ? (
                 <Loading />
             ) : (

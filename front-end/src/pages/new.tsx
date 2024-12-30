@@ -11,6 +11,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { useRecoilValue } from "recoil";
 import { taskState } from "@/features/taskAtom";
 import { userState } from "@/features/userAtom";
+import Nav from '@/components/Nav';
 
 
 export default function New(){
@@ -87,9 +88,9 @@ export default function New(){
 
 
     return (
-        <div className="w-full  p-4 font-poppins sm:w-full">
+        <div className="w-full  p-4 font-poppins sm:w-full sm:p-4">
           
-            
+            <Nav/>
             <div className="text-primary font-medium text-[26px] w-[700px] m-auto p-4 font-poppins sm:w-full sm:text-[20px]" >
             {task.id ?"UPDATE TASK":"ADD TASK"}
             </div>
