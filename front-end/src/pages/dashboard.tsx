@@ -1,5 +1,5 @@
 import axios from "axios";
-import Nav from "../components/Nav";
+
 import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import TaskCard from "@/components/TaskCard";
@@ -80,7 +80,7 @@ export default function Dashboard() {
 
     return (
         <div className="w-full min-h-screen p-4 font-poppins">
-            <Nav />
+          
             {loading ? (
                 <Loading />
             ) : (

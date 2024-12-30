@@ -1,5 +1,5 @@
 import Loading from "@/components/Loading"
-import Nav from "@/components/Nav"
+
 import back from "../assets/back.png"
 import {
     Table,
@@ -41,7 +41,7 @@ export default function AnalysisPage(){
 
 
    async function fetchData(){
-      const response = await axios.get<summary>(`http://localhost:3000/summary`,{
+      const response = await axios.get<summary>(`https://task-app-l5ta.onrender.com/summary`,{
          headers: { Authorization: `Bearer ${user.token}` }
       })
 
@@ -65,7 +65,6 @@ export default function AnalysisPage(){
     }
     return (
         <div className="p-10 font-poppins sm:w-full">
-         <Nav/>
          <div className="rounded-lg hover:bg-nav w-[100px] text-[18px] p-2 text-center mb-4 cursor-pointer flex items-center justify-center transition-all ease-in-out" onClick={() => navigate('/tasklist')}>
             <div className='w-[15px] h-[15px]  cursor-pointer'>
                 <img src={back} alt="full-screen" className='w-[15px] h-[15px]' />

@@ -1,4 +1,4 @@
-import Nav from "../components/Nav";
+
 import back from '../assets/back.png'
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -88,7 +88,7 @@ export default function New(){
 
     return (
         <div className="w-full  p-4 font-poppins sm:w-full">
-            <Nav/>
+          
             
             <div className="text-primary font-medium text-[26px] w-[700px] m-auto p-4 font-poppins sm:w-full sm:text-[20px]" >
             {task.id ?"UPDATE TASK":"ADD TASK"}
