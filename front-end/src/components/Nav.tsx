@@ -35,7 +35,7 @@ export default function Nav(){
                 Add Task
             </div>
 
-            <div className="text-[18px] px-4 py-2 rounded-full bg-primary-text cursor-pointer sm:text-[12px] sm:p-1 sm:h-8 xl:hidden md:hidden lg:hidden" onClick={updateState}>
+            <div className="text-[18px] px-4 py-2 rounded-full bg-primary-text cursor-pointer sm:text-[12px] sm:p-1 sm:h-8 hidden sm:block" onClick={updateState}>
                 Add 
             </div>
             <div className="text-[18px] px-4 py-2 rounded-full text-primary-text cursor-pointer sm:text-[12px]">

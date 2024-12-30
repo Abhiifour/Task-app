@@ -89,7 +89,7 @@ export default function Dashboard() {
                     <div className="flex justify-end gap-8 px-8 py-4 sm:gap-2 sm:p-2">
                         <div>
                             <Select onValueChange={handleTimeSort}>
-                                <SelectTrigger className="w-[150px] sm:w-[80px]">
+                                <SelectTrigger className="w-[150px]  sm:w-[60px] sm:text-[12px]">
                                     <SelectValue placeholder="Sort" />
                                 </SelectTrigger>
                                 <SelectContent className="bg-white">
@@ -103,7 +103,7 @@ export default function Dashboard() {
 
                         <div>
                             <Select onValueChange={handlePriorityFilter}>
-                                <SelectTrigger className="w-[150px] sm:w-[80px]">
+                                <SelectTrigger className="w-[150px] sm:w-[60px] sm:text-[12px]">
                                     <SelectValue placeholder="Priority" />
                                 </SelectTrigger>
                                 <SelectContent className="bg-white">
@@ -118,7 +118,7 @@ export default function Dashboard() {
 
                         <div>
                             <Select onValueChange={handleStatusFilter}>
-                                <SelectTrigger className="w-[150px] sm:w-[80px]">
+                                <SelectTrigger className="w-[150px]  sm:w-[60px] sm:text-[12px]">
                                     <SelectValue placeholder="Status" />
                                 </SelectTrigger>
                                 <SelectContent className="bg-white">
