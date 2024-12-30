@@ -8,7 +8,7 @@ import { useRecoilState, useRecoilValue } from "recoil"
 export default function Nav(){
     const navigate = useNavigate()
     const user = useRecoilValue(userState)
-    const [task , setTask] = useRecoilState(taskState)
+    const [ , setTask] = useRecoilState(taskState)
    
     function updateState(){
       setTask({

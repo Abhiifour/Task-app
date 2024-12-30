@@ -8,11 +8,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 
 export default function TaskCard({id,title,status,priority,endTime,startTime} : task){
 
-    const [currentTask , setCurrentTask] = useRecoilState(taskState);
-    // const [startTime, setStartTime] = useState(new Date(startDate));
-    // const [endTime, setEndTime] = useState(new Date(endDate));
-    // const dateObject = new Date(endDate)
-    // console.log(startDate)
+    const [ , setCurrentTask] = useRecoilState(taskState);
+  
     const user = useRecoilValue(userState)
     const navigate = useNavigate()
 
@@ -31,12 +28,12 @@ export default function TaskCard({id,title,status,priority,endTime,startTime} : 
     async function handleDelete(){
         console.log(id)
         try {
-            await axios.post(`http://localhost:3000/delete`,{ id }, {
+            await axios.post(`https://task-app-l5ta.onrender.com/delete`,{ id }, {
                 headers: { Authorization: `Bearer ${user.token}` },
                 
             });
-            // Optionally, you can add code here to update the UI or state after deletion
-            toast('Application Deleted !', {
+           
+            toast('task Deleted !', {
                 icon: '👋🏼',
             });
             navigate("/tasklist")

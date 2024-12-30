@@ -44,7 +44,7 @@ export default function New(){
         try {
             if(!task.id ){
 
-                await axios.post(`http://localhost:3000/create`, {
+                await axios.post(`https://task-app-l5ta.onrender.com/create`, {
                     title,
                     status,
                     priority,
@@ -61,7 +61,7 @@ export default function New(){
            
             else{
                 console.log(user)
-                const data = await axios.put(`http://localhost:3000/update`, {
+                await axios.put(`https://task-app-l5ta.onrender.com/update`, {
                     id: task.id,
                     title,
                     status,

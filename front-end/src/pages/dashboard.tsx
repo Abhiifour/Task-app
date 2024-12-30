@@ -21,7 +21,7 @@ export default function Dashboard() {
     const [displayData, setDisplayData] = useState<task[]>([]);
 
     async function getApplications() {
-        const tasks = await axios.get(`http://localhost:3000/`, {
+        const tasks = await axios.get(`https://task-app-l5ta.onrender.com/`, {
             headers: { Authorization: `Bearer ${user.token}` }
         });
         return tasks;

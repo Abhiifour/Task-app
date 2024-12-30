@@ -18,14 +18,14 @@ export  function User(){
     const [email , setEmail] = useState("")
     const [password , setPassword] = useState("")
     const [name , setName] = useState("")
-    const [user, setUser] = useRecoilState(userState)
+    const [, setUser] = useRecoilState(userState)
     const navigate = useNavigate()
     
 
 
     async function handleLogin(e : any){
         e.preventDefault()
-        const response = await axios.post('http://localhost:3000/login', {
+        const response = await axios.post('https://task-app-l5ta.onrender.com/login', {
             email,
             password
         });
@@ -52,7 +52,7 @@ export  function User(){
     
     async function handleSignup(e : any){
         e.preventDefault()
-        await axios.post('http://localhost:3000/signup', {
+        await axios.post('https://task-app-l5ta.onrender.com/signup', {
             name,
             email,
             password
