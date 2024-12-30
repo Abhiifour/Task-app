@@ -65,7 +65,14 @@ export default {
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		}
-  	}
+  	},
+	  screens: {
+		// Define custom breakpoints
+		xl: { max: '1279px' }, // Extra large screens
+		lg: { max: '1023px' }, // Large screens
+		md: { max: '767px' },  // Medium screens
+		sm: { max: '639px' },  // Small screens
+	},
   },
   plugins: [require("tailwindcss-animate")],
 }

@@ -23,18 +23,22 @@ export default function Nav(){
 
     }
     return (
-        <div className=" p-4  text-center border-b shadow-sm shadow-primary rounded-lg   mb-4 flex justify-between items-center">
-            <div className="text-[24px] uppercase font-rubik text-primary" onClick={()=> navigate('/tasklist')}>
+        <div className=" p-4  text-center border-b shadow-sm shadow-primary rounded-lg   mb-4 flex justify-between items-center sm:w-full sm:p-1">
+            <div className="text-[24px] uppercase font-rubik text-primary sm:text-[16px]" onClick={()=> navigate('/tasklist')}>
             Task Manager
             </div>
-            <div className="flex justify-center gap-4 font-poppins text-white">
-            <div className="text-[18px] px-4 py-2 rounded-full text-primary-text border-2 border-primary-text cursor-pointer" onClick={() => navigate('/analysis')}>
+            <div className="flex justify-center gap-4 font-poppins text-white sm:gap-2 sm:items-center">
+            <div className="text-[18px] px-4 py-2 rounded-full text-primary-text border-2 border-primary-text cursor-pointer sm:text-[12px] sm:p-1 sm:h-8" onClick={() => navigate('/analysis')}>
                 Analysis
             </div>
-            <div className="text-[18px] px-4 py-2 rounded-full bg-primary-text cursor-pointer" onClick={updateState}>
+            <div className="text-[18px] px-4 py-2 rounded-full bg-primary-text cursor-pointer sm:hidden" onClick={updateState}>
                 Add Task
             </div>
-            <div className="text-[18px] px-4 py-2 rounded-full text-primary-text cursor-pointer">
+
+            <div className="text-[18px] px-4 py-2 rounded-full bg-primary-text cursor-pointer sm:text-[12px] sm:p-1 sm:h-8" onClick={updateState}>
+                Add 
+            </div>
+            <div className="text-[18px] px-4 py-2 rounded-full text-primary-text cursor-pointer sm:text-[12px]">
                  Hi ,{user.name}
             </div>
             </div>

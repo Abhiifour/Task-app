@@ -17,9 +17,9 @@ export default function New(){
     const user = useRecoilValue(userState)
 
     const task = useRecoilValue(taskState)
-    const [loading,setLoading] = useState(false)
+    const [loading,setLoading] = useState(true)
     const[title ,setTitle] = useState(task.title ? task.title : "")
-    const [priority , setPriority] = useState(task.priority ? task.priority : "");
+    const [priority , setPriority] = useState(task.priority ? task.priority : "1");
     const [status , setStatus] = useState(task.status ? task.status : "pending");
     const [startTime, setStartTime] = useState<Date | null>(task.startTime ? new Date(task.startTime) : null);
     const [endTime, setEndTime] = useState<Date | null>(task.endTime ? new Date(task.endTime) : null);
@@ -31,42 +31,27 @@ export default function New(){
     useEffect( ()=>{
         
 
-        
+        setTimeout(() => {
+            setLoading(false)
+        }, 400);
      
     },[startTime])
 
 
-    // async function handleDelete(){
-    //     try {
-
-    //         async function deleteData(){
-    //             await axios.post('https://job-application-tracker-4yti.onrender.com/delete',{id :editId.id})
-              
-    //         }
-
-    //         deleteData()
-           
-
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-       
-    // }
-    
 
     async function handleSubmit (e : React.FormEvent){
         e.preventDefault()
         try {
             if(!task.id ){
 
-                await axios.post(`http://localhost:3000/create`,{
-                    headers: { Authorization: `Bearer ${user.token}` },
+                await axios.post(`http://localhost:3000/create`, {
                     title,
                     status,
                     priority,
                     startTime: startTime ? startTime.toISOString() : null,
                     endTime: endTime ? endTime.toISOString() : null
-                    
+                }, {
+                    headers: { Authorization: `Bearer ${user.token}` }
                 })
                 toast('Task Added!', {
                     icon: '👏',
@@ -75,15 +60,20 @@ export default function New(){
             }
            
             else{
-                await axios.put(`http://localhost:3000/update`,{
-                    headers: { Authorization: `Bearer ${user.token}` },
-                    id:task.id,
+                console.log(user)
+                const data = await axios.put(`http://localhost:3000/update`, {
+                    id: task.id,
                     title,
                     status,
                     priority,
                     startTime: startTime ? startTime.toISOString() : null,
                     endTime: endTime ? endTime.toISOString() : null
+                }, {
+                    headers: { Authorization: `Bearer ${user.token}` }
                 })
+                toast('Task Updated!', {
+                    icon: '👏',
+                });
                 
             }
             navigate("/tasklist")
@@ -97,14 +87,14 @@ export default function New(){
 
 
     return (
-        <div className="w-full  p-4 font-poppins">
+        <div className="w-full  p-4 font-poppins sm:w-full">
             <Nav/>
             
-            <div className="text-primary font-medium text-[26px] w-[700px] m-auto p-4 font-poppins" >
+            <div className="text-primary font-medium text-[26px] w-[700px] m-auto p-4 font-poppins sm:w-full sm:text-[20px]" >
             {task.id ?"UPDATE TASK":"ADD TASK"}
             </div>
-            <div className="w-[700px] p-2 m-auto px-8">
-            <div className="rounded-lg hover:bg-nav w-[100px] text-[18px] p-2 text-center mb-4 cursor-pointer flex items-center justify-center" onClick={() => navigate('/tasklist')}>
+            <div className="w-[700px] p-2 m-auto px-8 sm:m-0 sm:w-full">
+            <div className="rounded-lg hover:bg-nav w-[100px] text-[18px] p-2 text-center mb-4 cursor-pointer flex items-center justify-center transition-all ease-in-out" onClick={() => navigate('/tasklist')}>
             <div className='w-[15px] h-[15px]  cursor-pointer'>
                 <img src={back} alt="full-screen" className='w-[15px] h-[15px]' />
             </div>
@@ -145,8 +135,8 @@ export default function New(){
 
                 </div>
 
-                <div className="flex justify-between">
-                <div className="flex flex-col gap-3">
+                <div className="flex justify-between sm:flex-wrap">
+                <div className="flex flex-col gap-3 ">
                 <label htmlFor="start-time">Start time:</label>
 
                 <input

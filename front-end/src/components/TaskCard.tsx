@@ -1,7 +1,7 @@
 import { task, taskState } from "@/features/taskAtom";
 import { userState } from "@/features/userAtom";
 import axios from "axios";
-import { useState } from "react";
+
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -31,9 +31,9 @@ export default function TaskCard({id,title,status,priority,endTime,startTime} : 
     async function handleDelete(){
         console.log(id)
         try {
-            await axios.post(`http://localhost:3000/delete`, {
-            headers: { Authorization: `Bearer ${user.token}` },
-            id
+            await axios.post(`http://localhost:3000/delete`,{ id }, {
+                headers: { Authorization: `Bearer ${user.token}` },
+                
             });
             // Optionally, you can add code here to update the UI or state after deletion
             toast('Application Deleted !', {
@@ -46,7 +46,7 @@ export default function TaskCard({id,title,status,priority,endTime,startTime} : 
         }
     }
     return (
-        <div className="max-w-[250px]  border-2 font-poppins">
+        <div className="max-w-[250px]  border-2  font-poppins flex flex-col justify-between transition-all ease-in-out">
         <div className=" p-4 flex flex-col gap-6 ">
             <div>
                 <div className="text-[13px] text-slate-400">
@@ -88,10 +88,10 @@ export default function TaskCard({id,title,status,priority,endTime,startTime} : 
             
         </div>
         <div className="flex justify-between items-center p-3 px-14 bg-bg mt-6 border-t-2">
-        <div className=" text-[15px] text-stone-400 hover:text-stone-600 cursor-pointer hover:underline underline-offset-1" onClick={handleEdit}>
+        <div className=" text-[15px] text-stone-400 hover:text-stone-600 cursor-pointer hover:underline underline-offset-1 transition-all ease-in-out" onClick={handleEdit}>
             Edit
         </div>
-        <div className="text-red-400 cursor-pointer hover:text-red-600 hover:underline underline-offset-1 " onClick={handleDelete}>
+        <div className="text-red-400 cursor-pointer hover:text-red-600 hover:underline underline-offset-1 transition-all ease-in-out " onClick={handleDelete}>
             Delete
         </div>
     </div>
